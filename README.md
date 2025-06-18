@@ -1,2 +1,2 @@
 # gents-edit
-Website for style consulting business with blog. Used to learn TypeScript and in depth Web Dev
+Website for style consulting business with blog. Used to learn in depth Web Dev
