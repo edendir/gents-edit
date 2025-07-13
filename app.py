@@ -18,8 +18,8 @@ def about():
 
 @app.route('/blog')
 def blog():
-    posts = BlogPost.query.all()
-    return render_template('blog.html', posts=posts)
+    #posts = BlogPost.query.all()
+    return render_template('blog.html')
 
 @app.route('/search', methods=['GET', 'POST'])
 def search():
@@ -35,6 +35,7 @@ def contact():
     if request.method == 'POST':
         name = request.form['name']
         email = request.form['email']
+        service = request.form['service']
         message = request.form['message']
         # TODO: save the message to a database or send an email
         return render_template('contact.html', success=True)
