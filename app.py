@@ -1,5 +1,6 @@
 from flask import Flask, session, render_template, request
 from flask_session import Session
+from flask_mail import Mail, Message
 
 app = Flask(__name__)
 
@@ -7,6 +8,18 @@ app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+
+# Configure secret key for session management
+app.secret_key = 'your_secret_key_here'
+
+# Configure mail settings
+app.config['MAIL_SERVER'] = 'smtp.example.com'
+app.config['MAIL_PORT'] = 587
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USERNAME'] = ''
+app.config['MAIL_PASSWORD'] = ''
+
+mail = Mail(app)
 
 @app.route('/')
 def index():
@@ -37,6 +50,13 @@ def contact():
         email = request.form['email']
         service = request.form['service']
         message = request.form['message']
-        # TODO: save the message to a database or send an email
-        return render_template('contact.html', success=True)
+        
+        msg = Message(
+            subject=f'Contact Form Submission from {name} regarding {service}',
+            sender = email,
+            recipients=['info@the-gents-edit.com'],
+            body=f'Name: {name}\nEmail: {email}\nService: {service}\nMessage: {message}'
+        )
+        mail.send(msg)
+        return render_template('success.html', success=True)
     return render_template('contact.html')
