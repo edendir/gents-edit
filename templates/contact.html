@@ -12,19 +12,25 @@
         <input type="text" id="name" name="name" required>
     </div>
     
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    
-    <label for="service">Service Requested</label>"
-    <select id="service" name="service">
-        <option value="consultation">Initial Consultation</option>
-        <option value="wedding">Wedding</option>
-        <option value="wardrobe">Wardrobe Session</option>
-        <option value="other">Other</option>
-    </select>
+    <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" required>
+    </div>
 
-    <label for="message">Message:</label>
-    <textarea id="message" name="message" required></textarea>
+    <div>
+        <label for="service">Service Requested</label>
+        <select id="service" name="service">
+            <option value="consultation">Initial Consultation</option>
+            <option value="wedding">Wedding</option>
+            <option value="wardrobe">Wardrobe Session</option>
+            <option value="other">Other</option>
+        </select>
+    </div>
+
+    <div>
+        <label for="message">Message:</label>
+        <textarea id="message" name="message" required></textarea>
+    </div>
     
     <button class="btn btn-bd-primary" type="submit">Send</button>
 </form>

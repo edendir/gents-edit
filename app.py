@@ -13,13 +13,14 @@ Session(app)
 app.secret_key = 'your_secret_key_here'
 
 # Configure mail settings
-app.config['MAIL_SERVER'] = 'smtp.example.com'
+app.config['MAIL_SERVER'] = 'smtp.gmail.com'
 app.config['MAIL_PORT'] = 587
 app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = ''
-app.config['MAIL_PASSWORD'] = ''
+app.config['MAIL_USERNAME'] = 'lannonhomenetworks@gmail.com'
+app.config['MAIL_PASSWORD'] = 'Opportunities14!'
 
 mail = Mail(app)
+mail.init_app(app)
 
 @app.route('/')
 def index():
@@ -54,9 +55,11 @@ def contact():
         msg = Message(
             subject=f'Contact Form Submission from {name} regarding {service}',
             sender = email,
-            recipients=['info@the-gents-edit.com'],
+            recipients=['lannonhomenetworks@gmail.com'],
             body=f'Name: {name}\nEmail: {email}\nService: {service}\nMessage: {message}'
         )
         mail.send(msg)
         return render_template('success.html', success=True)
     return render_template('contact.html')
+
+# @app.route('/article/<int:article_id>')

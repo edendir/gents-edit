@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block main %}
+<h1>{{title}}</h1>
+{{article.content | replace('\n', '<br>') | safe}}
+
+{% if image %}
+    <img src="{{image}}" alt="{{title}}" class="img-fluid">
+{% endif %}
+
+{% if author %}
+    <p><strong>Author:</strong> {{author}}</p>
+{% endif %}
+
+{% if date %}
+    <p><strong>Date:</strong> {{date}}</p>
+{% endif %}
+
+{% if tags %}
+    <p><strong>Tags:</strong> {{tags | join:", "}}</p>
+{% endif %}
+
+{% if comments %}
+    <h2>Comments</h2>
+    {% for comment in comments %}
+        <div class="comment">
+            <p><strong>{{comment.author}}:</strong> {{comment.content}}</p>
+        </div>
+    {% endfor %}
+{% endif %}
+{% endblock %}
