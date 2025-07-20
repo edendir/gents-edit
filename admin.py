@@ -3,7 +3,7 @@ from flask_admin.contrib.sqla import ModelView
 from flask_login import current_user
 from models import db, BlogPost, Author
 
-admin = Admin(name='Gents Edit Admin', template_mode='bootstrap4')
+admin = Admin(name='Admin Panel', template_mode='bootstrap4')
 
 class SecureModelView(ModelView):
     def is_accessible(self):
