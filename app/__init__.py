@@ -13,6 +13,7 @@ def create_app():
     session_manager.init_app(app)
     admin.init_app(app)
 
-    from app import routes
+    from app.routes import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
     return app

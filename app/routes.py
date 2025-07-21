@@ -1,25 +1,26 @@
-from flask import render_template, request
+from flask import Blueprint, render_template, request
 from app.models import BlogPost
 from app.extensions import mail
-from flask import current_app as app
 
-@app.route("/")
+main = Blueprint('main', __name__)
+
+@main.route("/")
 def index():
     return render_template("index.html")
 
 
-@app.route("/about")
+@main.route("/about")
 def about():
     return render_template("about.html")
 
 
-@app.route("/blog")
+@main.route("/blog")
 def blog():
     posts = BlogPost.query.all()
     return render_template("blog.html", posts=posts)
 
 
-@app.route("/search", methods=["GET", "POST"])
+@main.route("/search", methods=["GET", "POST"])
 def search():
     if request.method == "POST":
         query = request.form["query"]
@@ -29,7 +30,7 @@ def search():
         return render_template("search.html")
 
 
-@app.route("/contact", methods=["GET", "POST"])
+@main.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
         name = request.form["name"]

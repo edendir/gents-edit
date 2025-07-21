@@ -1,7 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-
-db = SQLAlchemy()
+from app.extensions import db
 
 class BlogPost(db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -12,7 +11,7 @@ class BlogPost(db.Model):
     created_at = db.Column(db.DateTime, default=db.func.current_timestamp())
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     author = db.Relationship('Author', back_populates='blog_posts')
-    images = db.relationship('Image', backref='blog_post', lazy=True)
+    images = db.relationship('Image', back_populates='blog_post', lazy=True)
     
 class Author(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
@@ -29,7 +28,7 @@ class User(db.Model, UserMixin):
     password_hash = db.Column(db.String(200), nullable=False)
     is_admin = db.Column(db.Boolean, default=False)
     last_login = db.Column(db.DateTime, default=db.func.current_timestamp())
-    author_profile = db.relationship('Author', backref='user', uselist=False, lazy=True)
+    author_profile = db.relationship('Author', back_populates='user', uselist=False, lazy=True)
 
 class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
