@@ -19,6 +19,9 @@ def blog():
     posts = BlogPost.query.all()
     return render_template("blog.html", posts=posts)
 
+@main.route("/services")
+def services():
+    return render_template("services.html")
 
 @main.route("/search", methods=["GET", "POST"])
 def search():
