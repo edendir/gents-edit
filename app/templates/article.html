@@ -4,7 +4,7 @@
 
 {% block main %}
 <h1>{{title}}</h1>
-{{article.content | replace('\n', '<br>') | safe}}
+{{post.content | replace('\n', '<br>') | safe}}
 
 {% if image %}
     <img src="{{image}}" alt="{{title}}" class="img-fluid">
@@ -19,7 +19,9 @@
 {% endif %}
 
 {% if tags %}
-    <p><strong>Tags:</strong> {{tags | join:", "}}</p>
+    <p><strong>Tags:</strong> {% for tag in tags %}
+        {{ tag }}{% if not loop.last %}, {% endif %}
+    {% endfor %}</p>
 {% endif %}
 
 {% if comments %}

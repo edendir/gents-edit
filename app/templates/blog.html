@@ -3,6 +3,39 @@
 {% block title %}Blog{% endblock %}
 
 {% block main %}
-##TODO: Add Blog page copy here
+
+<h1>All Posts</h1>
+  {% for post in posts.items %}
+    <div class="post-preview">
+      <h2>{{ post.title }}</h2>
+      <p>{{ post.content[:200] }}...</p>
+      <p><small>Posted on {{ post.created_at.strftime('%b %d, %Y') }}</small></p>
+      <a href="{{ url_for('main.article', post_id=post.id) }}">Read More</a>
+    </div>
+    <hr>
+  {% endfor %}
+
+  <!-- Pagination Controls -->
+  <nav aria-label="Page navigation">
+    <ul class="pagination">
+      {% if posts.has_prev %}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('main.blog', page=posts.prev_num) }}">Previous</a>
+        </li>
+      {% endif %}
+
+      {% for p in range(1, posts.pages + 1) %}
+        <li class="page-item {% if p == posts.page %}active{% endif %}">
+          <a class="page-link" href="{{ url_for('main.blog', page=p) }}">{{ p }}</a>
+        </li>
+      {% endfor %}
+
+      {% if posts.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="{{ url_for('main.blog', page=posts.next_num) }}">Next</a>
+        </li>
+      {% endif %}
+    </ul>
+  </nav>
 
 {% endblock %}

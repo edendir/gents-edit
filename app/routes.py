@@ -6,8 +6,8 @@ main = Blueprint('main', __name__)
 
 @main.route("/")
 def index():
-    return render_template("index.html")
-
+    posts = BlogPost.query.order_by(BlogPost.created_at.desc()).limit(5).all()
+    return render_template('index.html', posts=posts)
 
 @main.route("/about")
 def about():
@@ -16,8 +16,15 @@ def about():
 
 @main.route("/blog")
 def blog():
-    posts = BlogPost.query.all()
+    page = request.args.get('page', 1, type=int)
+    per_page = 10
+    posts = BlogPost.query.order_by(BlogPost.created_at.desc()).paginate(page=page, per_page=per_page)
     return render_template("blog.html", posts=posts)
+
+@main.route("/article/<int:post_id>")
+def article_detail(post_id):
+    post = BlogPost.query.get_or_404(post_id)
+    return render_template("article.html", post=post)
 
 @main.route("/services")
 def services():
