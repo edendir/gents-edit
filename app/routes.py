@@ -32,12 +32,25 @@ def services():
 
 @main.route("/search", methods=["GET", "POST"])
 def search():
-    if request.method == "POST":
-        query = request.form["query"]
-        results = BlogPost.query.filter(BlogPost.content.contains(query)).all()
-        return render_template("search.html", results=results, query=query)
-    else:
-        return render_template("search.html")
+    query = request.args.get('q', '').strip()
+
+    if not query:
+        return render_template('search.html', posts=[], query=query)
+
+    posts = BlogPost.query\
+        .join(Author)\
+        .filter(
+            or_(
+                BlogPost.title.ilike(f'%{query}%'),
+                BlogPost.content.ilike(f'%{query}%'),
+                BlogPost.tags.ilike(f'%{query}%'),
+                func.lower(Author.name).ilike(f'%{query.lower()}%')
+            )
+        )\
+        .order_by(BlogPost.created_at.desc())\
+        .all()
+
+    return render_template('search.html', posts=posts, query=query)
 
 
 @main.route("/contact", methods=["GET", "POST"])
