@@ -19,8 +19,10 @@
 
 {{post.content | replace('\n', '<br>') | safe}}
 
-{% if image %}
-    <img src="{{image}}" alt="{{title}}" class="img-fluid">
+{% if post.images %}
+    {% for image in post.images %}
+        <img src="{{ image.url }}" alt="{{ post.title }}" class="img-fluid mb-3">
+    {% endfor %}
 {% endif %}
 
 {% if post.tags %}

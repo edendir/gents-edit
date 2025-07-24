@@ -1,6 +1,6 @@
 from flask import Flask
 from app.config import Config
-from app.extensions import db, mail, session_manager, login_manager
+from app.extensions import db, mail, session_manager, login_manager, migrate
 from app.admin import admin
 from app.auth import auth_blueprint
 from app.routes import main
@@ -16,6 +16,7 @@ def create_app():
     session_manager.init_app(app)
     admin.init_app(app)
     login_manager.init_app(app)
+    migrate.init_app(app, db)
 
     app.register_blueprint(main)
     app.register_blueprint(auth_blueprint)
