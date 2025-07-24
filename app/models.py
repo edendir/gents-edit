@@ -13,6 +13,8 @@ class BlogPost(db.Model):
     updated_at = db.Column(db.DateTime, default=db.func.current_timestamp(), onupdate=db.func.current_timestamp())
     author = db.Relationship('Author', back_populates='blog_posts')
     images = db.relationship('Image', back_populates='blog_post', lazy=True)
+    def __str__(self):
+        return self.title
     
 class Author(db.Model):
     id = db.Column(db.Integer, db.ForeignKey('user.id'), primary_key=True)
@@ -22,6 +24,8 @@ class Author(db.Model):
     profile_image_url = db.Column(db.String(200), nullable=True)
     user = db.relationship('User', backref='author', uselist=False, lazy=True)
     blog_posts = db.relationship('BlogPost', back_populates='author', lazy='dynamic')
+    def __str__(self):
+        return self.name
 
 class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
@@ -41,5 +45,6 @@ class Image(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     filename = db.Column(db.String(200), nullable=False)
     url = db.Column(db.String(200), nullable=False)
+    alt_text = db.Column(db.String(200), nullable=True)
     blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'), nullable=False)
     blog_post = db.relationship('BlogPost', back_populates='images')
