@@ -31,3 +31,10 @@ document.querySelectorAll('[data-bs-theme-value]').forEach(function (btn) {
         btn.querySelector('.ms-auto').classList.remove('d-none');
     });
 });
+
+// Toggle search form visibility
+document.getElementById("search-icon").addEventListener("click", function (e) {
+    e.preventDefault();
+    document.getElementById("search-form").classList.toggle("d-none");
+    document.querySelector("#search-form input").focus();
+});

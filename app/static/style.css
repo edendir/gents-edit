@@ -111,3 +111,8 @@ h1, h2, h3, h4, h5, h6 {
 .bd-mode-toggle .dropdown-menu .active .bi {
     display: block !important;
 }
+
+.search-toggle {
+    display: flex;
+    align-items: center;
+}

@@ -1,25 +1,30 @@
 {% extends "layout.html" %}
 
-{% block title %}{{title}}{% endblock %}
+{% block title %}{{post.title}}{% endblock %}
 
 {% block main %}
-<h1>{{title}}</h1>
+<h1>{{post.title}}</h1>
+
+{% if post.author %}
+    <p><strong>Author:</strong> {{post.author.name}}</p>
+{% endif %}
+
+{% if post.created_at %}
+    <p><strong>Posted on:</strong> {{post.created_at.strftime('%b %d, %Y')}}</p>
+{% endif %}
+
+{% if post.updated_at %}
+    <p><strong>Last updated:</strong> {{post.updated_at.strftime('%b %d, %Y')}}</p>
+{% endif %}
+
 {{post.content | replace('\n', '<br>') | safe}}
 
 {% if image %}
     <img src="{{image}}" alt="{{title}}" class="img-fluid">
 {% endif %}
 
-{% if author %}
-    <p><strong>Author:</strong> {{author}}</p>
-{% endif %}
-
-{% if date %}
-    <p><strong>Date:</strong> {{date}}</p>
-{% endif %}
-
-{% if tags %}
-    <p><strong>Tags:</strong> {% for tag in tags %}
+{% if post.tags %}
+    <p><strong>Tags:</strong> {% for tag in post.tags.split(',') %}
         {{ tag }}{% if not loop.last %}, {% endif %}
     {% endfor %}</p>
 {% endif %}
