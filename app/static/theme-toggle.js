@@ -1,24 +1,33 @@
-function applySystemTheme() {
-    var autoBtn = document.querySelector('[data-bs-theme-value="auto"]');
-    if (autoBtn && autoBtn.classList.contains('active')) {
-        var systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.setAttribute('data-bs-theme', systemPrefersDark ? 'dark' : 'light');
-    }
+const savedTheme = localStorage.getItem('theme');
+if (savedTheme === "auto") {
+    applySystemTheme();
+} else if (savedTheme) {
+    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+    document.querySelectorAll('[data-bs-theme-value]').forEach(function (btn) {
+        btn.classList.remove('active');
+        btn.setAttribute('aria-pressed', 'false');
+        btn.querySelector('.ms-auto').classList.add('d-none');
+        if (btn.getAttribute('data-bs-theme-value') === savedTheme) {
+            btn.classList.add('active');
+            btn.setAttribute('aria-pressed', 'true');
+            btn.querySelector('.ms-auto').classList.remove('d-none');
+        }
+    });
+} else {
+    applySystemTheme();
 }
 
-// Initial theme detection
-applySystemTheme();
-
-// Listen for system theme changes
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', applySystemTheme);
 
 document.querySelectorAll('[data-bs-theme-value]').forEach(function (btn) {
     btn.addEventListener('click', function () {
         var theme = btn.getAttribute('data-bs-theme-value');
         if (theme === 'auto') {
+            localStorage.setItem('theme', 'auto'); // <-- Save 'auto'
             applySystemTheme();
         } else {
             document.documentElement.setAttribute('data-bs-theme', theme);
+            localStorage.setItem('theme', theme);
         }
         // Update active state and checkmark visibility
         document.querySelectorAll('[data-bs-theme-value]').forEach(function (b) {
