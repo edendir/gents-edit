@@ -20,6 +20,22 @@ if not admin:
     print("Admin user not found. Please create the admin user first.")
     exit()
 
+# Ensure admin author profile exists
+if not admin.author_profile:
+    from app.models import Author
+    author = Author(
+        id=admin.id,  # ForeignKey to User
+        name=admin.username,
+        email=admin.username + "@example.com",  # Or use admin.email if available
+        bio="Admin user",
+        profile_image_url=""
+    )
+    db.session.add(author)
+    db.session.commit()
+    print("Admin author profile created.")
+else:
+    author = admin.author_profile
+    
 # Tag pool
 tag_pool = ["flask", "webdev", "style", "tech", "blog", "python", "sqlalchemy"]
 
