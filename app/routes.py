@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template, request
 from app.models import BlogPost
 from app.extensions import mail
+from flask_mail import Message
 
 main = Blueprint('main', __name__)
 
@@ -64,7 +65,7 @@ def contact():
         msg = Message(
             subject=f"Contact Form Submission from {name} regarding {service}",
             sender=email,
-            recipients=["lannonhomenetworks@gmail.com"],
+            recipients=["info@the-gents-edit.com"],
             body=f"Name: {name}\nEmail: {email}\nService: {service}\nMessage: {message}",
         )
         mail.send(msg)
