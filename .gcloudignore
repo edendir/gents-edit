@@ -1,0 +1,13 @@
+# Ignore everything by default
+*
+
+# But explicitly include these:
+!app/
+!templates/
+!static/
+!secrets/gcp-deploy.json
+!run.py
+!requirements.txt
+!Dockerfile
+!.dockerignore
+!.env.yaml

@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from app.config import Config
 from app.extensions import db, mail, session_manager, login_manager, migrate
@@ -8,7 +9,8 @@ from app.models import User
 
 def create_app():
     app = Flask(__name__)
-    app.config.from_object(Config)
+    config_class = os.getenv('FLASK_ENV', 'DevelopmentConfig')
+    app.config.from_object(f'app.config.{config_class}')
 
     # Initialize extensions
     db.init_app(app)
