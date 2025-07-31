@@ -1,4 +1,11 @@
 const savedTheme = localStorage.getItem('theme');
+
+function applySystemTheme() {
+    const isDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const theme = isDark ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-bs-theme', theme);
+}
+
 if (savedTheme === "auto") {
     applySystemTheme();
 } else if (savedTheme) {
