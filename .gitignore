@@ -5,3 +5,11 @@ __pycache__/
 *.pyo
 *.json
 /secrets/
+.env.yaml
+/.vscode/
+/.idea/
+/.venv/
+*.swp
+/.pytest_cache/
+tests/
+flask_session/

@@ -1,17 +1,24 @@
 import os
 from flask import Flask
-from app.config import Config
-from app.extensions import db, mail, session_manager, login_manager, migrate
-from app.admin import admin
-from app.auth import auth_blueprint
-from app.routes import main
-from app.models import User
+from app.config import Config, ProductionConfig, DevelopmentConfig
 
 def create_app():
     app = Flask(__name__)
-    config_class = os.getenv('FLASK_ENV', 'DevelopmentConfig')
-    app.config.from_object(f'app.config.{config_class}')
 
+    print("Creating Flask app with configuration...")
+
+    from app.extensions import db, mail, session_manager, login_manager, migrate
+    from app.admin import admin
+    from app.auth import auth_blueprint
+    from app.routes import main
+    from app.models import User
+
+    config_class = ProductionConfig if os.getenv('FLASK_ENV') == 'production' else DevelopmentConfig
+    app.config.from_object(config_class)
+    print(f"Using configuration: {config_class.__name__}")
+    
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'ADD_DB_HERE'  # Placeholder to ensure it's set
+    print("using database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
     # Initialize extensions
     db.init_app(app)
     mail.init_app(app)
