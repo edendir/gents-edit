@@ -21,7 +21,7 @@
         <label for="service">Service Requested</label>
         <select id="service" name="service">
             <option value="consultation">Initial Consultation</option>
-            <option value="wedding">Wedding</option>
+            <option value="wedding">Event Consultation</option>
             <option value="wardrobe">Wardrobe Session</option>
             <option value="other">Other</option>
         </select>
@@ -31,8 +31,8 @@
         <label for="message">Message:</label>
         <textarea id="message" name="message" required></textarea>
     </div>
-    
+    <div class="g-recaptcha" data-sitekey="{{ secret_key }}"></div>
     <button class="btn btn-bd-primary" type="submit">Send</button>
 </form>
-
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 {% endblock %}
