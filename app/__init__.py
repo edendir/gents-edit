@@ -17,7 +17,7 @@ def create_app():
     app.config.from_object(config_class)
     print(f"Using configuration: {config_class.__name__}")
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'ADD_DB_HERE'  # Placeholder to ensure it's set
+    #app.config['SQLALCHEMY_DATABASE_URI'] = 'ADD_DB_HERE'  # Placeholder to ensure it's set
     print("using database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
     # Initialize extensions
     db.init_app(app)

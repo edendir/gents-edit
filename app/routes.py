@@ -1,3 +1,4 @@
+import os
 from flask import Blueprint, render_template, request
 from app.models import BlogPost
 from app.extensions import mail
@@ -57,6 +58,15 @@ def search():
 @main.route("/contact", methods=["GET", "POST"])
 def contact():
     if request.method == "POST":
+        recaptcha_response = request.form["g-recaptcha-response"]
+        secret_key = os.getenv("RECAPTCHA_SECRET_KEY")
+        r = request.post(
+            "https://www.google.com/recaptcha/api/siteverify",
+            data={"secret": secret_key, "response": recaptcha_response},
+        )
+        result = r.json()
+        if not result.get("success"):
+            return render_template("contact.html", error="Invalid reCAPTCHA. Please try again.")
         name = request.form["name"]
         email = request.form["email"]
         service = request.form["service"]
@@ -70,4 +80,4 @@ def contact():
         )
         mail.send(msg)
         return render_template("success.html", success=True)
-    return render_template("contact.html")
+    return render_template("contact.html", secret_key=os.getenv("RECAPTCHA_SECRET_KEY"))
