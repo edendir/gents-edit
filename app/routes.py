@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, flash, redirect, url_for
 from app.models import BlogPost
 from app.extensions import mail
 from flask_mail import Message
@@ -57,16 +57,26 @@ def search():
 
 @main.route("/contact", methods=["GET", "POST"])
 def contact():
+    site_key = "6LdX6p4rAAAAANeRqbAZ4su0RTagxhp_JGH2ruNj"
     if request.method == "POST":
-        recaptcha_response = request.form["g-recaptcha-response"]
-        secret_key = os.getenv("RECAPTCHA_SECRET_KEY")
-        r = request.post(
+        recaptcha_response = request.form.get("g-recaptcha-response")
+        print(recaptcha_response)
+        if not recaptcha_response:
+            flash("reCAPTCHA response is missing. Please try again.", "danger")
+            return redirect(url_for("main.contact"))
+
+        secret_key = "6LdX6p4rAAAAAJPWt8CL0IHjSOCT7qZ0GPQKBAdq"
+        import requests
+        r = requests.post(
             "https://www.google.com/recaptcha/api/siteverify",
             data={"secret": secret_key, "response": recaptcha_response},
         )
         result = r.json()
-        if not result.get("success"):
-            return render_template("contact.html", error="Invalid reCAPTCHA. Please try again.")
+        print(result)
+        if result.get("success") != True or result.get("score", 0) < 0.5:
+            flash("Invalid reCAPTCHA. Please try again.", "danger")
+            return redirect(url_for("main.contact"))
+
         name = request.form["name"]
         email = request.form["email"]
         service = request.form["service"]
@@ -80,4 +90,4 @@ def contact():
         )
         mail.send(msg)
         return render_template("success.html", success=True)
-    return render_template("contact.html", secret_key=os.getenv("RECAPTCHA_SECRET_KEY"))
+    return render_template("contact.html", site_key=site_key)
