@@ -22,6 +22,8 @@ class Config:
     REMEMBER_COOKIE_SECURE = True
     REMEMBER_COOKIE_HTTPONLY = True
     PREFERRED_URL_SCHEME = 'https'
+    RECPATCHA_SITE_KEY = os.getenv('RECAPTCHA_SITE_KEY')
+    RECPATCHA_SECRET_KEY = os.getenv('RECAPTCHA_SECRET_KEY')
 
 class DevelopmentConfig(Config):
     DEBUG = True
