@@ -4,7 +4,7 @@ Gent's Edit is a production-ready Flask-based website built for my personal imag
 
 ## Live Site
 
-[www.the-gents-edit.com](https://www.the-gents-edit.com)
+[the-gents-edit.com](https://the-gents-edit.com)
 
 ---
 
