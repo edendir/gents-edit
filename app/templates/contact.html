@@ -32,6 +32,8 @@
             <option value="consultation">Initial Consultation</option>
             <option value="wedding">Event Consultation</option>
             <option value="wardrobe">Wardrobe Session</option>
+            <option value="personal_shopping">Personal Shopping</option>
+            <option value="email_notifications">Email Notifications</option>
             <option value="other">Other</option>
         </select>
     </div>
@@ -40,6 +42,12 @@
         <label for="message">Message:</label>
         <textarea id="message" name="message" required></textarea>
     </div>
+
+    <div>
+        <label for="email_list">Join our email list?</label>
+        <input type="checkbox" id="email_list" name="email_list">
+    </div>
+    
     <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
     <button class="btn btn-bd-primary" type="submit">Send</button>
 </form>

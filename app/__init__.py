@@ -15,10 +15,7 @@ def create_app():
 
     config_class = ProductionConfig if os.getenv('FLASK_ENV') == 'production' else DevelopmentConfig
     app.config.from_object(config_class)
-    print(f"Using configuration: {config_class.__name__}")
     
-    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://neondb_owner:npg_VkC3mwE9FGjf@ep-noisy-math-ae4kjfyv-pooler.c-2.us-east-2.aws.neon.tech/neondb?sslmode=require&channel_binding=require'  # Placeholder to ensure it's set
-    print("using database URI:", app.config['SQLALCHEMY_DATABASE_URI'])
     # Initialize extensions
     db.init_app(app)
     mail.init_app(app)

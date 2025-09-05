@@ -48,3 +48,14 @@ class Image(db.Model):
     alt_text = db.Column(db.String(200), nullable=True)
     blog_post_id = db.Column(db.Integer, db.ForeignKey('blog_post.id'), nullable=False)
     blog_post = db.relationship('BlogPost', back_populates='images')
+
+class Subscriber(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(100), nullable=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    subscribed_on = db.Column(db.DateTime, default=db.func.current_timestamp())
+    active = db.Column(db.Boolean, default=True)
+    unsubscribed_on = db.Column(db.DateTime, nullable=True)
+    unsubscribe_reason = db.Column(db.String(200), nullable=True)
+    def __str__(self):
+        return self.email

@@ -57,7 +57,7 @@ def search():
 
 @main.route("/contact", methods=["GET", "POST"])
 def contact():
-    site_key = "6LdX6p4rAAAAANeRqbAZ4su0RTagxhp_JGH2ruNj"
+    site_key = os.getenv("RECAPTCHA_SITE_KEY")
     if request.method == "POST":
         recaptcha_response = request.form.get("g-recaptcha-response")
         print(recaptcha_response)
@@ -65,7 +65,7 @@ def contact():
             flash("reCAPTCHA response is missing. Please try again.", "danger")
             return redirect(url_for("main.contact"))
 
-        secret_key = "6LdX6p4rAAAAAJPWt8CL0IHjSOCT7qZ0GPQKBAdq"
+        secret_key = os.getenv("RECAPTCHA_SECRET_KEY")
         import requests
         r = requests.post(
             "https://www.google.com/recaptcha/api/siteverify",
@@ -89,5 +89,13 @@ def contact():
             body=f"Name: {name}\nEmail: {email}\nService: {service}\nMessage: {message}",
         )
         mail.send(msg)
+
+        if request.form.get("email_list"):
+            from app.models import Subscriber
+            existing_subscriber = Subscriber.query.filter_by(email=email).first()
+            if not existing_subscriber:
+                new_subscriber = Subscriber(email=email)
+                db.session.add(new_subscriber)
+                db.session.commit()
         return render_template("success.html", success=True)
     return render_template("contact.html", site_key=site_key)
