@@ -13,7 +13,7 @@
 {% for post in posts %}
   <div>
     <h2><a href="{{ url_for('main.article_detail', post_id=post.id) }}">{{ post.title }}</a></h2>
-    <p>{{ post.content[:200] }}...</p>
+    <p>{{ post.content|striptags|truncate(200) }}...</p>
   </div>
 {% endfor %}
 
