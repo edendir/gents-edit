@@ -9,11 +9,11 @@ main = Blueprint('main', __name__)
 @main.route("/")
 def index():
     posts = BlogPost.query.order_by(BlogPost.created_at.desc()).limit(5).all()
-    return render_template('index.html', posts=posts)
+    return render_template('index.html', posts=posts, request=request)
 
 @main.route("/about")
 def about():
-    return render_template("about.html")
+    return render_template("about.html", request=request)
 
 
 @main.route("/blog")
@@ -21,16 +21,16 @@ def blog():
     page = request.args.get('page', 1, type=int)
     per_page = 10
     posts = BlogPost.query.order_by(BlogPost.created_at.desc()).paginate(page=page, per_page=per_page)
-    return render_template("blog.html", posts=posts)
+    return render_template("blog.html", posts=posts, request=request)
 
 @main.route("/article/<int:post_id>")
 def article_detail(post_id):
     post = BlogPost.query.get_or_404(post_id)
-    return render_template("article.html", post=post)
+    return render_template("article.html", post=post, request=request)
 
 @main.route("/services")
 def services():
-    return render_template("services.html")
+    return render_template("services.html", request=request)
 
 @main.route("/search", methods=["GET", "POST"])
 def search():
@@ -52,7 +52,7 @@ def search():
         .order_by(BlogPost.created_at.desc())\
         .all()
 
-    return render_template('search.html', posts=posts, query=query)
+    return render_template('search.html', posts=posts, query=query, request=request)
 
 
 @main.route("/contact", methods=["GET", "POST"])
